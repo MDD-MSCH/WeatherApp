@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<weatherapp>
+	<weathersources>
+		<url>api.openweathermap.org/data/2.5/weather?q=</url>
+		<apiKey>3177d79d26282d8dfc0283bb0d40e564</apiKey>
+		<updatefrequency unit="min">1</updatefrequency>
+		<repeat>5</repeat>
+	</weathersources>
+	<weathersourcesbackup>
+		<urlBackup>http://api.wunderground.com/api/</urlBackup>
+		<apiKeyBackup>925b89bb127214d4</apiKeyBackup>
+		<updatefrequencyBackup unit="min">1</updatefrequencyBackup>
+		<repeatBackup>5</repeatBackup>
+	</weathersourcesbackup>
+	<weatherdetails>
+		<city>berlin</city>
+		<date>07.02.2017</date>
+	</weatherdetails>
+	<weathervalues>
+		<weatherdescription>true</weatherdescription>
+		<temperature>true</temperature>
+		<humidity>true</humidity>
+		<pressure>true</pressure>
+		<windspeed>true</windspeed>
+		<winddirection>true</winddirection>
+		<sunrise>true</sunrise>
+		<sunset>true</sunset>
+	</weathervalues>
+	<storagelocation>
+		<path>C:\Users\Public\</path>
+		<filename>weather</filename>
+		<fileformat>.csv</fileformat>
+	</storagelocation>
+</weatherapp>
