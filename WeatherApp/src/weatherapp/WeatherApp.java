@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import readerANDwriter.CSVwriter;
-import readerANDwriter.ConfigReader;
+import readerANDwriter.ConfigReader2;
 import readerANDwriter.LogfileWriter;
 import setupInterfaces.SystemProps;
 
@@ -20,16 +20,19 @@ public class WeatherApp implements SystemProps {
 		if (checkPath()) {
 			path = FULL_PATH_TO_XML_CONFIG;
 		} else {
-			logwriter.appendLine("No file found in: " + FULL_PATH_TO_XML_CONFIG	+ " ,take the default config.xml which you can find in: " + path);
+			logwriter.appendLine("No file found in: " + FULL_PATH_TO_XML_CONFIG+ " ,take the default config.xml which you can find in: " + path);
 		}
-		ConfigReader xmlConfig = new ConfigReader(path);
-		int updatefrequency = Integer.parseInt(xmlConfig.getElementValueMap().get("updatefrequency"));
-		int repeat = Integer.parseInt(xmlConfig.getElementValueMap().get("repeat"));
+		ConfigReader2 xmlConfigreader2 = new ConfigReader2(path);
+		xmlConfigreader2.fill();
+		int updatefrequency = Integer.parseInt(xmlConfigreader2.getElementValueMap().get("updatefrequency"));
+		int repeat = Integer.parseInt(xmlConfigreader2.getElementValueMap().get("repeat"));
 		Timer caretaker = new Timer();
 		TimerTask action = new TimerTask() {
 			public void run() {
-				Preparation prepare = new Preparation(xmlConfig.getElementValueMap());
-				new CSVwriter(prepare.getWeatherDataMap(), prepare.getPath(),	prepare.getFilename(), prepare.getFileformat());
+				for (int n = 0; n < xmlConfigreader2.getCitysList().size(); n++) {
+					Preparation prepare = new Preparation(xmlConfigreader2.getElementValueMap(), xmlConfigreader2.getCitysList().get(n), xmlConfigreader2.getDatesList().get(n));
+					new CSVwriter(prepare.getWeatherDataMap(), prepare.getPath(), prepare.getFilename(), prepare.getFileformat());
+				}
 				count++;
 				if (count > repeat) {
 					caretaker.cancel();

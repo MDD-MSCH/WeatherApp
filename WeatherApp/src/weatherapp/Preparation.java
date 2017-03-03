@@ -27,14 +27,17 @@ public class Preparation implements XMLelements {
 	private LogfileWriter logWriter;
 
 	private TreeMap<String, String> weatherDataMap;
-	private LocalDate currentDate, maxForcastDate;
+	private LocalDate date, currentDate, maxForcastDate;
 	private String path;
 	private String filename;
 	private String fileformat;
+	private String cityName;
 	private boolean current;
 	private int daysInFuture;
 
-	public Preparation(HashMap<String, String> elementValueMap) {
+	public Preparation(HashMap<String, String> elementValueMap, String cityName, LocalDate date) {
+		this.cityName = cityName;
+		this.date = date;
 		init(elementValueMap);
 		checkCurrentOrForecast();
 	}
@@ -70,18 +73,18 @@ public class Preparation implements XMLelements {
 	}
 
 	private void checkCurrentOrForecast() {
-		if (cv.getSelectedDate().equals(currentDate)) {
+		if (date.equals(currentDate)) {
 			current = true;
 			checkReachabilityOfCurrentWeatherServices();
 		}
 
-		if (cv.getSelectedDate().isAfter(currentDate) && cv.getSelectedDate().isBefore(maxForcastDate)) {
-			Period period = Period.between(currentDate, cv.getSelectedDate());
+		if (date.isAfter(currentDate) && date.isBefore(maxForcastDate)) {
+			Period period = Period.between(currentDate, date);
 			daysInFuture = period.getDays();
 			checkReachabilityOfForecastWeatherServices();			
 		} 
 		
-		if (cv.getSelectedDate().isBefore(currentDate) || cv.getSelectedDate().isAfter(maxForcastDate)) {
+		if (date.isBefore(currentDate) || date.isAfter(maxForcastDate)) {
 			logWriter.appendLine("Selected date is not avoidable!");
 			System.exit(0);
 		}
@@ -90,11 +93,11 @@ public class Preparation implements XMLelements {
 	private void checkReachabilityOfCurrentWeatherServices(){
 		if (checkReachabilityOfOWMcurrent()) {
 			weatherDataMap.put(CITY, owmWeatherToday.getCityName());
-			weatherDataMap.put(DATE, cv.getDate());
+			weatherDataMap.put(DATE, date.toString());
 			fillListWithOWMweather();
 		} else if (checkReachabilityOfWundergroundCurrent()) {
 			weatherDataMap.put(CITY, wuWeatherToday.getCity());
-			weatherDataMap.put(DATE, cv.getDate());
+			weatherDataMap.put(DATE, date.toString());
 			fillListWithWUweather();
 		} else {
 			logWriter.appendLine("No current weatherservice is reachable!");
@@ -104,11 +107,11 @@ public class Preparation implements XMLelements {
 	private void checkReachabilityOfForecastWeatherServices(){
 		if (checkReachabilityOfOWMforcast()) {
 			weatherDataMap.put(CITY, owmWeatherInFuture.getCityInstance().getCityName());
-			weatherDataMap.put(DATE, cv.getDate());
+			weatherDataMap.put(DATE, date.toString());
 			fillListWithOWMweather();
 		} else if (checkReachabilityOfWundergroundForecast()) {
 			weatherDataMap.put(CITY, wuWeatherInFuture.getCity());
-			weatherDataMap.put(DATE, cv.getDate());
+			weatherDataMap.put(DATE, date.toString());
 			fillListWithWUweather();
 		} else {
 			logWriter.appendLine("No forecast weatherservice is reachable!");
@@ -117,7 +120,7 @@ public class Preparation implements XMLelements {
 
 	private boolean checkReachabilityOfOWMcurrent() {
 		try {
-			owmWeatherToday = owm.currentWeatherByCityName(cv.getCity());
+			owmWeatherToday = owm.currentWeatherByCityName(cityName);
 		} catch (Exception e) {
 			logWriter.appendLine(e.toString() + " " + Arrays.toString(e.getStackTrace()));
 		}
@@ -125,14 +128,14 @@ public class Preparation implements XMLelements {
 	}
 
 	private boolean checkReachabilityOfWundergroundCurrent() {
-		wuWeatherToday = new WUweatherValuesCurrent(cv.getApiKeyBackup(), cv.getCity());
+		wuWeatherToday = new WUweatherValuesCurrent(cv.getApiKeyBackup(), cityName);
 		return wuWeatherToday.isValid();
 	}
 
 	private boolean checkReachabilityOfOWMforcast() {
 		byte i = 4;
 		try {
-			owmWeatherInFuture = owm.dailyForecastByCityName(cv.getCity(), i);
+			owmWeatherInFuture = owm.dailyForecastByCityName(cityName, i);
 		} catch (Exception e) {
 			logWriter.appendLine(e.toString() + " " + Arrays.toString(e.getStackTrace()));
 		}
@@ -140,7 +143,7 @@ public class Preparation implements XMLelements {
 	}
 
 	private boolean checkReachabilityOfWundergroundForecast() {
-		wuWeatherInFuture = new WUweatherValuesForecast(cv.getApiKeyBackup(), cv.getCity(), daysInFuture);
+		wuWeatherInFuture = new WUweatherValuesForecast(cv.getApiKeyBackup(), cityName, daysInFuture);
 		return wuWeatherInFuture.isValid();
 	}
 

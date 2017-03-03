@@ -15,7 +15,19 @@
 	</weathersourcesbackup>
 	<weatherdetails>
 		<city>berlin</city>
-		<date>07.02.2017</date>
+		<date>27.02.2017</date>
+		<city>mainz</city>
+		<date>27.02.2017</date>
+		<city>wiesbaden</city>
+		<date>27.02.2017</date>
+		<city>london</city>
+		<date>27.02.2017</date>
+		<city>Stuttgart</city>
+		<date>27.02.2017</date>
+		<city>paris</city>
+		<date>27.02.2017</date>
+		<city>madrid</city>
+		<date>27.02.2017</date>
 	</weatherdetails>
 	<weathervalues>
 		<weatherdescription>true</weatherdescription>
@@ -28,7 +40,7 @@
 		<sunset>true</sunset>
 	</weathervalues>
 	<storagelocation>
-		<path>C:\Users\Public\</path>
+		<path>C:\Users\Michael\</path>
 		<filename>weather</filename>
 		<fileformat>.csv</fileformat>
 	</storagelocation>

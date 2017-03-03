@@ -1,7 +1,5 @@
 package weatherapp;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import readerANDwriter.LogfileWriter;
@@ -9,10 +7,9 @@ import setupInterfaces.XMLelements;
 
 public class ConfigValues implements XMLelements {
 	private LogfileWriter log = new LogfileWriter();
-	private String url, urlBackup, apiKey, apiKeyBackup, city, date, path, filename, fileformat;
+	private String url, urlBackup, apiKey, apiKeyBackup, path, filename, fileformat;
 	private int updatefrequency, updatefrequencyBackup, repeat, repeatBackup;
 	private boolean weather, temperature, humidity, pressure, windspeed, winddirection, sunrise, sunset;
-	private LocalDate selecteddate;
 	
 	public boolean isWeather() {
 		return this.weather;
@@ -110,14 +107,6 @@ public class ConfigValues implements XMLelements {
 		this.apiKeyBackup = apiKeyBackup;
 	}
 
-	public String getCity() {
-		return this.city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
 	public int getUpdatefrequency() {
 		return this.updatefrequency;
 	}
@@ -148,22 +137,6 @@ public class ConfigValues implements XMLelements {
 
 	public void setRepeatBackup(int repeatBackup) {
 		this.repeatBackup = repeatBackup;
-	}
-
-	public String getDate() {
-		return this.date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public LocalDate getSelectedDate() {
-		return this.selecteddate;
-	}
-
-	public void setSelectedDate(LocalDate selecteddate) {
-		this.selecteddate = selecteddate;
 	}
 
 	public String getPath() {
@@ -197,12 +170,6 @@ public class ConfigValues implements XMLelements {
 			urlBackup = elementValueMap.get(URLBACKUP);
 			apiKey = elementValueMap.get(APIKEY);
 			apiKeyBackup = elementValueMap.get(APIKEYBACKUP);
-			city = elementValueMap.get(CITY);
-						
-			date = elementValueMap.get(DATE);
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-			selecteddate = LocalDate.parse(date, formatter);
-			
 			updatefrequency = Integer.parseInt(elementValueMap.get(UPDATEFREQUENCY));
 			updatefrequencyBackup = Integer.parseInt(elementValueMap.get(UPDATEFREQUENCYBACKUP));
 			repeat = Integer.parseInt(elementValueMap.get(REPEAT));
@@ -215,7 +182,6 @@ public class ConfigValues implements XMLelements {
 			winddirection = Boolean.parseBoolean(elementValueMap.get(WINDDIRECTION));
 			sunrise = Boolean.parseBoolean(elementValueMap.get(SUNRISE));
 			sunset = Boolean.parseBoolean(elementValueMap.get(SUNSET));
-			
 			path = elementValueMap.get(PATH);
 			filename = elementValueMap.get(FILENAME);
 			fileformat = elementValueMap.get(FILEFORMAT);
