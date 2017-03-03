@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.jdom2.Document;
@@ -13,6 +14,7 @@ import org.jdom2.input.SAXBuilder;
 import setupInterfaces.XMLelements;
 
 public class ConfigReader2 implements XMLelements{
+	private LogfileWriter logWriter;
 	private Document doc;
 	private Element root, sources, sourcesbackup, details, values, storagelocation;
 	private HashMap<String, String> elementValueMap;
@@ -22,6 +24,7 @@ public class ConfigReader2 implements XMLelements{
 	}
 
 	public ConfigReader2(String source) {
+		logWriter = LogfileWriter.INSTANCE_LOG_WRITER;
 		elementValueMap = new HashMap<>();
 		try {
 			doc = new SAXBuilder().build(source);
@@ -32,7 +35,7 @@ public class ConfigReader2 implements XMLelements{
 			values = root.getChild(WEATHERVALUES);
 			storagelocation = root.getChild(STORAGELOCATION);
 		} catch (JDOMException | IOException e) {
-			e.printStackTrace();
+			logWriter.appendLine(e.toString()+" "+Arrays.toString(e.getStackTrace()));
 		}
 	}
 	public void fill(){

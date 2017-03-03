@@ -8,8 +8,9 @@ import java.time.LocalDateTime;
 import setupInterfaces.SystemProps;
 
 
-public class LogfileWriter implements SystemProps {
-			
+public enum LogfileWriter implements SystemProps {
+	INSTANCE_LOG_WRITER;
+	
 	public void appendLine(String message){
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		String time = currentDateTime.toString();

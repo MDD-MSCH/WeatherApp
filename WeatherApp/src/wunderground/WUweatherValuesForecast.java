@@ -11,7 +11,7 @@ public class WUweatherValuesForecast implements WeatherValues, WUforecastJSONele
 	private RESTclient rct;
 
 	public WUweatherValuesForecast(String key, String city, int daysInFuture) {
-		logWriter = new LogfileWriter();
+		logWriter = LogfileWriter.INSTANCE_LOG_WRITER;
 		rct = new RESTclient(key, "forecast", city, daysInFuture);
 	}
 

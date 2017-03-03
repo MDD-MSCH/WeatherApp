@@ -31,7 +31,7 @@ public class CSVwriter implements XMLelements, SystemProps {
 	private String fileformat;
 	
 	public CSVwriter(TreeMap<String, String> weatherDataMap, String path, String filename, String fileformat) {
-		logWriter = new LogfileWriter();
+		logWriter = LogfileWriter.INSTANCE_LOG_WRITER;
 		fileHeaderWordPositions = new TreeMap<>();
 		weatherData = weatherDataMap;
 		this.path = path;

@@ -70,5 +70,4 @@ public class WUweatherValuesCurrent implements WeatherValues, WUcurrentJSONeleme
 	public String getPressureInHPA() {
 		return rct.getWeatherDataMap().get(PRESSURE_IN_HPA).toString();
 	}
-
 }

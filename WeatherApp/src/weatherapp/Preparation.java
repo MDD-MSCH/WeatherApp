@@ -59,7 +59,7 @@ public class Preparation implements XMLelements {
 	}
 
 	private void init(HashMap<String, String> elementValueMap) {
-		logWriter = new LogfileWriter();
+		logWriter = LogfileWriter.INSTANCE_LOG_WRITER;
 		cv = new ConfigValues(elementValueMap);
 		owm = new OpenWeatherMap(cv.getApiKey());
 		convert = new Tools();

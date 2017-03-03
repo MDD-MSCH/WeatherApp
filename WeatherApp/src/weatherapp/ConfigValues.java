@@ -6,7 +6,7 @@ import readerANDwriter.LogfileWriter;
 import setupInterfaces.XMLelements;
 
 public class ConfigValues implements XMLelements {
-	private LogfileWriter log = new LogfileWriter();
+	private LogfileWriter logWriter;
 	private String url, urlBackup, apiKey, apiKeyBackup, path, filename, fileformat;
 	private int updatefrequency, updatefrequencyBackup, repeat, repeatBackup;
 	private boolean weather, temperature, humidity, pressure, windspeed, winddirection, sunrise, sunset;
@@ -163,9 +163,9 @@ public class ConfigValues implements XMLelements {
 		this.fileformat = fileformat;
 	}
 	public ConfigValues(HashMap<String, String> elementValueMap) {
+		logWriter = LogfileWriter.INSTANCE_LOG_WRITER;
 		try {
-			elementValueMap.forEach((k,v)->System.out.println("KeyCV : " + k + " ValueCV : " + v));
-			
+//			elementValueMap.forEach((k,v)->System.out.println("KeyCV : " + k + " ValueCV : " + v));
 			url = elementValueMap.get(URL);
 			urlBackup = elementValueMap.get(URLBACKUP);
 			apiKey = elementValueMap.get(APIKEY);
@@ -186,7 +186,7 @@ public class ConfigValues implements XMLelements {
 			filename = elementValueMap.get(FILENAME);
 			fileformat = elementValueMap.get(FILEFORMAT);
 		} catch (Exception e) {
-			log.appendLine(e.toString()+" "+Arrays.toString(e.getStackTrace()));
+			logWriter.appendLine(e.toString()+" "+Arrays.toString(e.getStackTrace()));
 		} 
 	}
 }

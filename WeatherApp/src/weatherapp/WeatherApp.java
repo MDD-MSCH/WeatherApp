@@ -10,18 +10,23 @@ import readerANDwriter.LogfileWriter;
 import setupInterfaces.SystemProps;
 
 public class WeatherApp implements SystemProps {
-	private int count = 0;
+	private int count;
 	private String path;
-
+	private LogfileWriter logWriter;
+	
 	public WeatherApp() {
+		count = 0;
 		path = "./src/config.xml";
-		LogfileWriter logwriter = new LogfileWriter();
-
+		logWriter = LogfileWriter.INSTANCE_LOG_WRITER;
+	
 		if (checkPath()) {
 			path = FULL_PATH_TO_XML_CONFIG;
 		} else {
-			logwriter.appendLine("No file found in: " + FULL_PATH_TO_XML_CONFIG+ " ,take the default config.xml which you can find in: " + path);
+			logWriter.appendLine("No file found in: " + FULL_PATH_TO_XML_CONFIG+ " ,take the default config.xml which you can find in: " + path);
 		}
+	}
+	
+	private void start(){
 		ConfigReader2 xmlConfigreader2 = new ConfigReader2(path);
 		xmlConfigreader2.fill();
 		int updatefrequency = Integer.parseInt(xmlConfigreader2.getElementValueMap().get("updatefrequency"));
@@ -43,9 +48,10 @@ public class WeatherApp implements SystemProps {
 		};
 		caretaker.schedule(action, 500, 60000 * updatefrequency);
 	}
-
+	
 	public static void main(String[] args) {
-		new WeatherApp();
+		WeatherApp weather = new WeatherApp();
+		weather.start();
 	}
 
 	private boolean checkPath() {

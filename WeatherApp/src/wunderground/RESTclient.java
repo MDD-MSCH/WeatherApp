@@ -40,7 +40,7 @@ public class RESTclient {
 
 	public RESTclient(String apikey, String date, String city, int daysInFuture) {
 		Client wetterApiClient = ClientBuilder.newClient();
-		logWriter = new LogfileWriter();
+		logWriter = LogfileWriter.INSTANCE_LOG_WRITER;
 		weatherDataMap = new HashMap<>();
 		try {
 			if (date.equals("current")) {
